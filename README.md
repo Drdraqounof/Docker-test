@@ -48,9 +48,8 @@ The `-v` flag removes volumes, forcing a true clean slate test
 
 ---
 
-## TS.5.2 Level 10 — Compose + Prisma
 
-### Compose Networking Expectations
+## Compose Networking Expectations
 
 Your `docker-compose.yml` must establish proper service orchestration and health dependencies.
 
@@ -152,7 +151,8 @@ The container must autonomously initialize its database schema—no external scr
 
 ---
 
-## Environment Setup (Lab 6)
+
+## Environment Setup
 
 Secrets are never stored in `docker-compose.yml` or committed to git.
 
@@ -179,7 +179,8 @@ git rm --cached .env.production
 
 ---
 
-## Starting the Stack (Lab 4)
+
+## Starting the Stack
 
 ```bash
 docker compose up -d --build
@@ -225,7 +226,8 @@ healthcheck:
 
 ---
 
-## Running Prisma Migrations (Lab 5)
+
+## Running Prisma Migrations
 
 ### Step 1 — Generate migration files locally
 
@@ -252,7 +254,8 @@ docker compose exec app npx prisma migrate deploy
 
 ---
 
-## Proving Determinism (Lab 4.1)
+
+## Proving Determinism
 
 This sequence proves your setup is fully reproducible from scratch.
 
