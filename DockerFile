@@ -1,0 +1,54 @@
+# Base image
+FROM node:18-alpine AS base
+
+# ── Stage 1: Install dependencies ────────────────────────────────────────────
+FROM base AS deps
+WORKDIR /app
+
+# Copy package manifests and install production deps
+COPY package*.json ./
+RUN npm ci --only=production
+
+# ── Stage 2: Build the application ───────────────────────────────────────────
+FROM base AS builder
+WORKDIR /app
+
+# Bring in installed node_modules from deps stage
+COPY --from=deps /app/node_modules ./node_modules
+
+# Copy source code and build
+COPY . .
+RUN npm run build
+
+# ── Stage 3: Production runner ────────────────────────────────────────────────
+FROM base AS runner
+WORKDIR /app
+
+# Don't run production as root
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser  --system --uid  1001 nextjs
+
+# Copy the necessary files for running the application
+COPY --from=builder /app/public ./public
+
+# Set ownership and permissions for the .next directory
+RUN mkdir .next
+RUN chown nextjs:nextjs .next
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nextjs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nextjs /app/.next/static ./.next/static
+
+# Switch to the nextjs user
+USER nextjs
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Set environment variables
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+# Start the application
+CMD ["node", "server.js"]
