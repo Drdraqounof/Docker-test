@@ -1,0 +1,21 @@
+# Docker Commands
+
+# Build and start the containers in detached mode
+up:
+  command: "docker compose up -d --build"
+  description: "Builds and starts the application and database containers."
+
+# Stop and remove the containers, networks, and volumes
+down:
+  command: "docker compose down -v"
+  description: "Stops and removes all containers, networks, and volumes."
+
+# View the status of the containers
+ps:
+  command: "docker compose ps"
+  description: "Shows the status of the running containers."
+
+# View the logs of the application container
+logs:
+  command: "docker compose logs -f app"
+  description: "Follows the logs of the application container."
