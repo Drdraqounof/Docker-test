@@ -1,3 +1,7 @@
+# Run a basic Node.js Alpine container
+run-node:
+  command: "docker run node:20-alpine"
+  description: "Runs a basic Node.js Alpine container for testing base image."
 # Docker Commands
 
 # Build and start the containers in detached mode
