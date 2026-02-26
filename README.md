@@ -1,3 +1,30 @@
+---
+
+## Automated Troubleshooting Checks
+
+To help catch common issues early, this project includes an automated troubleshooting script: `entrypoint-troubleshoot.sh`.
+
+- This script checks for problems that have been fixed in the past (see [troubleshoot.md](troubleshoot.md)).
+- If a known issue is detected (e.g., missing build script, out-of-sync lockfile, empty page.tsx), a clear warning will be printed to the container logs with a reference to the relevant fix.
+
+### How to Use
+
+1. **Set as Docker Entrypoint:**
+  In your `Dockerfile`, replace the default entrypoint with:
+  ```dockerfile
+  COPY entrypoint-troubleshoot.sh /entrypoint-troubleshoot.sh
+  RUN chmod +x /entrypoint-troubleshoot.sh
+  ENTRYPOINT ["/entrypoint-troubleshoot.sh"]
+  CMD ["node", "server.js"]
+  ```
+
+2. **Build and Run:**
+  When you run `docker compose up -d --build`, the script will automatically check for known issues and print warnings if any are found.
+
+3. **Review Troubleshoot Logs:**
+  If you see a warning in the logs, check [troubleshoot.md](troubleshoot.md) for the solution.
+
+This helps ensure that previously fixed issues do not silently reappear and provides immediate guidance if they do.
 
 
 # Today's Outcomes

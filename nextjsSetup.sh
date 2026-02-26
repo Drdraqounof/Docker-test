@@ -1,35 +1,36 @@
 #!/usr/bin/env bash
 
 if ! command -v node >/dev/null; then
-    echo "Node.js is not installed. Installing Node.js..."
+    echo "[ERROR][NODE_CHECK] Node.js is not installed. Installing Node.js..."
 
     sudo apt update -y
     sudo apt install -y nodejs npm
 
-    echo "Node.js $(node --version) and npm $(npm --version) have been installed."
+    echo "[INFO][NODE_INSTALL] Node.js $(node --version) and npm $(npm --version) have been installed."
 else
-    echo "Node.js is already installed. Version: $(node --version)"
+    echo "[INFO][NODE_CHECK] Node.js is already installed. Version: $(node --version)"
 fi
 
-echo "What is the name of your Next.js project?"
+echo "[PROMPT][PROJECT_NAME] What is the name of your Next.js project?"
 read projectName
 
-echo "Creating a new Next.js project named \"$projectName\"..."
+echo "[INFO][CREATE_PROJECT] Creating a new Next.js project named \"$projectName\"..."
 
-echo "Running npx create-next-app..."
+echo "[INFO][CREATE_PROJECT] Running npx create-next-app..."
+
 npx create-next-app@latest "$projectName" --yes
 
-echo "Navigating into the project directory..."
+echo "[INFO][NAVIGATE] Navigating into the project directory..."
 cd "$projectName"
 
 if [ $? -ne 0 ]; then
-    echo "Failed to navigate into the project directory."
+    echo "[ERROR][NAVIGATE] Failed to navigate into the project directory."
     exit 1
 else
-    echo "Successfully navigated into the project directory."
+    echo "[INFO][NAVIGATE] Successfully navigated into the project directory."
 fi
 
-echo "Creating Copilot instructions..."
+echo "[INFO][COPILOT] Creating Copilot instructions..."
 mkdir -p .github
 
 cat <<'EOF' > .github/copilot-instructions.md
@@ -47,7 +48,7 @@ cat <<'EOF' > .github/copilot-instructions.md
 - Follow Next.js conventions
 EOF
 
-echo "Next.js project \"$projectName\" has been created successfully."
-echo "Before you log off run: npm run dev"
-echo "To start later: cd $projectName && npm run dev"
-echo "Enjoy building your Next.js application!"
+echo "[SUCCESS][CREATE_PROJECT] Next.js project \"$projectName\" has been created successfully."
+echo "[INFO][DEV] Before you log off run: npm run dev"
+echo "[INFO][DEV] To start later: cd $projectName && npm run dev"
+echo "[INFO][COMPLETE] Enjoy building your Next.js application!"
