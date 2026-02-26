@@ -1,4 +1,26 @@
----
+## Example Setup Structure
+
+This setup uses the following structure:
+
+```text
+├── setup.sh                    # One-command setup (only needs docker)
+├── docker-compose.yaml         # All four databases + seed container
+├── Dockerfile.seed             # Alpine image with curl + netcat for seeding
+├── data/
+│   ├── books.json              # Canonical source: 120 books, 40 authors, 13 genres
+│   └── customers.json          # 25 customers, 355 reviews, 61 orders
+├── postgres/
+│   └── sql/
+│       └── init.sql            # Relational schema + seed data (auto-loaded by Postgres)
+├── scripts/
+│   ├── seed-all.sh             # Entrypoint: runs the three scripts below in order
+│   ├── seed-couchdb.sh         # Document DB seed script
+│   ├── seed-memcached.sh       # KV cache seed script
+│   └── seed-typesense.sh       # Search engine seed script
+└── README.md
+```
+
+This structure provides a clear overview of the setup scripts, data sources, and database initialization.
 
 ## Continuous Integration (CI) and Secret Validation
 
