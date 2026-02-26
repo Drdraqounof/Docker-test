@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# nextjsSetup.sh
+# Interactive script to bootstrap a Next.js project with Copilot and troubleshooting instructions.
+#!/usr/bin/env bash
 
 if ! command -v node >/dev/null; then
     echo "[ERROR][NODE_CHECK] Node.js is not installed. Installing Node.js..."

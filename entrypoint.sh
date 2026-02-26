@@ -1,4 +1,7 @@
 #!/bin/sh
+# entrypoint.sh
+# Checks for required secrets and prints helpful messages before starting the app.
+#!/bin/sh
 # entrypoint.sh - Custom entrypoint to check for required secrets and print helpful messages
 
 REQUIRED_SECRET="MY_SECRET_KEY"

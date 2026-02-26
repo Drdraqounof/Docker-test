@@ -1,3 +1,5 @@
+# docker-compose.yml
+# Defines multi-container application services, networks, and volumes for local development and testing.
 services:
   app:
     build: .
@@ -8,6 +10,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
 
   db:
     image: postgres:15
@@ -22,6 +32,14 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
 
 volumes:
   db_data:

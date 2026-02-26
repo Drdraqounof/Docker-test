@@ -1,4 +1,7 @@
 #!/bin/sh
+# entrypoint-troubleshoot.sh
+# Runs automated troubleshooting and environment validation before starting the app.
+#!/bin/sh
 # entrypoint-troubleshoot.sh - Checks for previously fixed issues and prints helpful messages
 
 # 1. Check for missing build script
