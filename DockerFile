@@ -36,9 +36,10 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nextjs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nextjs /app/.next/static ./.next/static
 
-# Copy custom entrypoint script (before switching user)
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+
+# Copy troubleshooting entrypoint script (before switching user)
+COPY entrypoint-troubleshoot.sh /entrypoint-troubleshoot.sh
+RUN chmod +x /entrypoint-troubleshoot.sh
 
 # Switch to the nextjs user
 USER nextjs
@@ -49,8 +50,8 @@ EXPOSE 3000
 # Set environment variables
 ENV PORT=3000
 
-# Set entrypoint to check for secrets before starting
-ENTRYPOINT ["/entrypoint.sh"]
+# Set entrypoint to always run troubleshooting checks before starting the app
+ENTRYPOINT ["/entrypoint-troubleshoot.sh"]
 
 # Start the application
 CMD ["node", "server.js"]

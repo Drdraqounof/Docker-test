@@ -31,5 +31,14 @@ if ! grep -q 'adduser  --system --uid  1001 nextjs' Dockerfile; then
   echo "[WARNING][USER] 'nextjs' user not created in Dockerfile. This was a previous issue. See troubleshoot.md#6."
 fi
 
+# 7. Enforce secret injection discipline
+REQUIRED_SECRETS="MY_SECRET_KEY DATABASE_URL"
+for secret in $REQUIRED_SECRETS; do
+  if [ -z "$(printenv $secret)" ]; then
+    echo "[ERROR][SECRET] Required secret $secret is missing. Refusing to start."
+    exit 1
+  fi
+done
+
 # Start the main application
 exec "$@"
